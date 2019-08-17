@@ -1,0 +1,172 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://screens/Ball.gd" type="Script" id=1]
+[ext_resource path="res://icon.png" type="Texture" id=2]
+[ext_resource path="res://screens/LeftPaddle.gd" type="Script" id=3]
+[ext_resource path="res://screens/RightPaddle.gd" type="Script" id=4]
+[ext_resource path="res://screens/HUD.gd" type="Script" id=5]
+
+[sub_resource type="PhysicsMaterial" id=1]
+friction = 0.0
+bounce = 1.0
+
+[sub_resource type="CircleShape2D" id=2]
+radius = 24.5
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 579.387, 32 )
+
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 42.82, 359.143 )
+
+[sub_resource type="CapsuleShape2D" id=5]
+radius = 9.89603
+height = 109.526
+
+[node name="Node2D" type="Node2D"]
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Ball" type="RigidBody2D" parent="."]
+editor/display_folded = true
+position = Vector2( 512, 300 )
+physics_material_override = SubResource( 1 )
+gravity_scale = 0.0
+contacts_reported = 10
+contact_monitor = true
+linear_damp = 0.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Sprite" type="Sprite" parent="Ball"]
+scale = Vector2( 0.75, 0.75 )
+texture = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ball"]
+shape = SubResource( 2 )
+
+[node name="TopWall" type="StaticBody2D" parent="."]
+editor/display_folded = true
+position = Vector2( 512, -32 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Sprite" type="Sprite" parent="TopWall"]
+modulate = Color( 0, 0, 0, 1 )
+position = Vector2( -0.500022, 0 )
+scale = Vector2( 18.1094, 1 )
+texture = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TopWall"]
+shape = SubResource( 3 )
+
+[node name="BottomWall" type="StaticBody2D" parent="."]
+editor/display_folded = true
+position = Vector2( 512, 632 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Sprite" type="Sprite" parent="BottomWall"]
+modulate = Color( 0, 0, 0, 1 )
+position = Vector2( -0.500022, 0 )
+scale = Vector2( 18.1094, 1 )
+texture = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BottomWall"]
+shape = SubResource( 3 )
+
+[node name="LeftGoal" type="Area2D" parent="."]
+editor/display_folded = true
+position = Vector2( -50, 300 )
+gravity_vec = Vector2( 0, 0 )
+gravity = 0.0
+linear_damp = 0.0
+angular_damp = 0.0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LeftGoal"]
+shape = SubResource( 4 )
+
+[node name="RightGoal" type="Area2D" parent="."]
+editor/display_folded = true
+position = Vector2( 1074, 300 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RightGoal"]
+shape = SubResource( 4 )
+
+[node name="LeftPaddle" type="KinematicBody2D" parent="."]
+editor/display_folded = true
+position = Vector2( 20, 300 )
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Sprite" type="Sprite" parent="LeftPaddle"]
+modulate = Color( 0, 0, 0, 1 )
+scale = Vector2( 0.3, 2 )
+texture = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LeftPaddle"]
+shape = SubResource( 5 )
+
+[node name="RightPaddle" type="KinematicBody2D" parent="."]
+editor/display_folded = true
+position = Vector2( 1004, 300 )
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Sprite" type="Sprite" parent="RightPaddle"]
+modulate = Color( 0, 0, 0, 1 )
+scale = Vector2( 0.3, 2 )
+texture = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RightPaddle"]
+shape = SubResource( 5 )
+
+[node name="HUD" type="CanvasLayer" parent="."]
+scale = Vector2( 10, 10 )
+transform = Transform2D( 10, 0, 0, 10, 0, 0 )
+script = ExtResource( 5 )
+
+[node name="LeftScore" type="Label" parent="HUD"]
+margin_left = 11.0
+margin_top = 45.0
+margin_right = 40.0
+margin_bottom = 59.0
+size_flags_stretch_ratio = 0.0
+text = "0"
+align = 1
+
+[node name="RightScore" type="Label" parent="HUD"]
+margin_left = 63.0
+margin_top = 45.136
+margin_right = 92.0
+margin_bottom = 59.136
+size_flags_stretch_ratio = 0.0
+text = "0"
+align = 1
+
+[node name="MessageLabel" type="Label" parent="HUD"]
+margin_top = 8.0
+margin_right = 102.0
+margin_bottom = 22.0
+align = 1
+[connection signal="body_entered" from="Ball" to="Ball" method="_on_Ball_body_entered"]
+[connection signal="body_entered" from="LeftGoal" to="Ball" method="_on_LeftGoal_body_entered"]
+[connection signal="body_entered" from="LeftGoal" to="HUD" method="_on_LeftGoal_body_entered"]
+[connection signal="body_entered" from="RightGoal" to="Ball" method="_on_RightGoal_body_entered"]
+[connection signal="body_entered" from="RightGoal" to="HUD" method="_on_RightGoal_body_entered"]
+[connection signal="game_over" from="HUD" to="Ball" method="_on_HUD_game_over"]
