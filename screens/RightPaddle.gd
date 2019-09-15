@@ -4,12 +4,11 @@ export var speed = 400
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	
 	# Paddle can move up or down.
 	var velocity = Vector2()
-	if Input.is_action_pressed("ui_left"):
+	if Input.is_action_pressed("ui_left") || get_node("../HUD/RightPaddleUpButton").is_pressed():
 		velocity.y -= 1
-	if Input.is_action_pressed("ui_right"):
+	if Input.is_action_pressed("ui_right") || get_node("../HUD/RightPaddleDownButton").is_pressed():
 		velocity.y += 1
 	if (velocity.length() > 0):
 		velocity = velocity * speed
