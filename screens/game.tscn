@@ -1,12 +1,13 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://screens/Ball.gd" type="Script" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
-[ext_resource path="res://screens/LeftPaddle.gd" type="Script" id=3]
-[ext_resource path="res://screens/RightPaddle.gd" type="Script" id=4]
-[ext_resource path="res://screens/HUD.gd" type="Script" id=5]
-[ext_resource path="res://up_arrow.png" type="Texture" id=6]
-[ext_resource path="res://down_arrow.png" type="Texture" id=7]
+[ext_resource path="res://my_game_sounds_1.wav" type="AudioStream" id=3]
+[ext_resource path="res://screens/LeftPaddle.gd" type="Script" id=4]
+[ext_resource path="res://screens/RightPaddle.gd" type="Script" id=5]
+[ext_resource path="res://screens/HUD.gd" type="Script" id=6]
+[ext_resource path="res://up_arrow.png" type="Texture" id=7]
+[ext_resource path="res://down_arrow.png" type="Texture" id=8]
 
 [sub_resource type="PhysicsMaterial" id=1]
 friction = 0.0
@@ -31,7 +32,6 @@ __meta__ = {
 }
 
 [node name="Ball" type="RigidBody2D" parent="."]
-editor/display_folded = true
 position = Vector2( 512, 300 )
 physics_material_override = SubResource( 1 )
 gravity_scale = 0.0
@@ -50,8 +50,11 @@ texture = ExtResource( 2 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Ball"]
 shape = SubResource( 2 )
 
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Ball"]
+stream = ExtResource( 3 )
+volume_db = -15.0
+
 [node name="TopWall" type="StaticBody2D" parent="."]
-editor/display_folded = true
 position = Vector2( 512, -32 )
 __meta__ = {
 "_edit_group_": true
@@ -109,7 +112,7 @@ shape = SubResource( 4 )
 [node name="LeftPaddle" type="KinematicBody2D" parent="."]
 editor/display_folded = true
 position = Vector2( 20, 300 )
-script = ExtResource( 3 )
+script = ExtResource( 4 )
 __meta__ = {
 "_edit_group_": true
 }
@@ -125,7 +128,7 @@ shape = SubResource( 5 )
 [node name="RightPaddle" type="KinematicBody2D" parent="."]
 editor/display_folded = true
 position = Vector2( 1004, 300 )
-script = ExtResource( 4 )
+script = ExtResource( 5 )
 __meta__ = {
 "_edit_group_": true
 }
@@ -141,7 +144,7 @@ shape = SubResource( 5 )
 [node name="HUD" type="CanvasLayer" parent="."]
 scale = Vector2( 10, 10 )
 transform = Transform2D( 10, 0, 0, 10, 0, 0 )
-script = ExtResource( 5 )
+script = ExtResource( 6 )
 
 [node name="LeftScore" type="Label" parent="HUD"]
 margin_left = 11.0
@@ -169,29 +172,29 @@ align = 1
 
 [node name="LeftPaddleUpButton" type="TouchScreenButton" parent="HUD"]
 scale = Vector2( 0.157813, 0.157813 )
-normal = ExtResource( 6 )
-pressed = ExtResource( 6 )
+normal = ExtResource( 7 )
+pressed = ExtResource( 7 )
 visibility_mode = 1
 
 [node name="LeftPaddleDownButton" type="TouchScreenButton" parent="HUD"]
 position = Vector2( 0.18421, 39.6316 )
 scale = Vector2( 0.157813, 0.157813 )
-normal = ExtResource( 7 )
-pressed = ExtResource( 7 )
+normal = ExtResource( 8 )
+pressed = ExtResource( 8 )
 visibility_mode = 1
 
 [node name="RightPaddleDownButton" type="TouchScreenButton" parent="HUD"]
 position = Vector2( 82.1842, 39.7368 )
 scale = Vector2( 0.157813, 0.157813 )
-normal = ExtResource( 7 )
-pressed = ExtResource( 7 )
+normal = ExtResource( 8 )
+pressed = ExtResource( 8 )
 visibility_mode = 1
 
 [node name="RightPaddleUpButton" type="TouchScreenButton" parent="HUD"]
 position = Vector2( 82.1, 0.2 )
 scale = Vector2( 0.157813, 0.157813 )
-normal = ExtResource( 6 )
-pressed = ExtResource( 6 )
+normal = ExtResource( 7 )
+pressed = ExtResource( 7 )
 visibility_mode = 1
 [connection signal="body_entered" from="Ball" to="Ball" method="_on_Ball_body_entered"]
 [connection signal="body_entered" from="LeftGoal" to="Ball" method="_on_LeftGoal_body_entered"]

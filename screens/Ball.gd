@@ -34,6 +34,7 @@ func _get_random_1d_velocity():
 func _on_Ball_body_entered(body):
 	print("ball entered body")
 	print(body)
+	$"./AudioStreamPlayer".play()
 
 # Called when left goal signals that a body entered it
 func _on_LeftGoal_body_entered(body):
@@ -48,7 +49,6 @@ func _on_RightGoal_body_entered(body):
 		print("ball detected rightgoal body entered")
 		print(body)
 		is_resetting_state = true
-
 
 func _on_HUD_game_over():
 	is_game_over = true
